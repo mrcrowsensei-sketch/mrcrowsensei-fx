@@ -799,6 +799,10 @@ html[data-theme=light] .lki{color:#3d3262}html[data-theme=light] .lki:hover{back
 .tav span{margin-left:-9px}.tav span:first-child{margin-left:0}
 .tav span:nth-child(1){z-index:4}.tav span:nth-child(2){z-index:3}.tav span:nth-child(3){z-index:2}.tav span:nth-child(4){z-index:1}
 .tav span{background-size:cover!important;background-position:center!important;overflow:hidden}
+.lw{animation:ldIn 1s cubic-bezier(.22,1,.36,1) .12s backwards}
+@keyframes ldIn{from{opacity:0;scale:.86}to{opacity:1;scale:1}}
+.tav span{margin-left:-3px;border:2px solid var(--bg,#0d0a14)!important;box-shadow:0 0 0 1.5px rgba(255,255,255,.22)!important}
+.tav span:first-child{margin-left:0}
 </style>
 </head>
 <body>
@@ -948,7 +952,7 @@ function flipShuffle(g){var kids=[].slice.call(g.children),before=kids.map(funct
 
 function getCred(){return {e:(typeof SESS!=='undefined'&&SESS&&SESS.e)||''}}
 function hashPw(p,salt){var d=new TextEncoder().encode(salt+':'+p);if(window.crypto&&crypto.subtle)return crypto.subtle.digest('SHA-256',d).then(function(b){return [].map.call(new Uint8Array(b),function(x){return ('0'+x.toString(16)).slice(-2)}).join('')});var h=5381;for(var i=0;i<d.length;i++)h=((h<<5)+h+d[i])|0;return Promise.resolve(String(h))}
-function enterApp(){try{localStorage.setItem('cs_admin','1')}catch(e){}$('login').classList.add('hide');var l=$('ld');l.classList.remove('hide');setTimeout(function(){$('app').classList.remove('hide');l.classList.add('out');setTimeout(function(){render();document.body.classList.add('rise0')},350);setTimeout(function(){l.classList.add('hide');l.classList.remove('out');document.body.classList.remove('rise0')},2200)},1400)}
+function enterApp(fast){try{localStorage.setItem('cs_admin','1')}catch(e){}$('login').classList.add('hide');var l=$('ld');l.classList.remove('hide');setTimeout(function(){$('app').classList.remove('hide');l.classList.add('out');setTimeout(function(){render();document.body.classList.add('rise0')},350);setTimeout(function(){l.classList.add('hide');l.classList.remove('out');document.body.classList.remove('rise0')},fast?1300:2200)},fast?450:1400)}
 function platName(u){u=(u||'').trim();if(!u)return '';var s=u.toLowerCase(),M=[[/discord/,'Discord'],[/(^|\/\/|\.)(x|twitter)\.com/,'X / Twitter'],[/youtu/,'YouTube'],[/instagram/,'Instagram'],[/t\.me|telegram/,'Telegram'],[/wa\.me|whatsapp/,'WhatsApp'],[/^mailto:/,'Email'],[/tiktok/,'TikTok'],[/twitch/,'Twitch'],[/github/,'GitHub'],[/reddit/,'Reddit'],[/facebook|fb\.com/,'Facebook'],[/linkedin/,'LinkedIn'],[/behance/,'Behance'],[/fiverr/,'Fiverr'],[/upwork/,'Upwork']];for(var i=0;i<M.length;i++)if(M[i][0].test(s))return M[i][1];if(s.indexOf('.')<1)return '';var m=s.replace(/^[a-z]+:\/\//,'').replace(/^www\./,'').split(/[\/?#]/)[0].split('.')[0];return /^[a-z0-9-]{2,}$/.test(m)?m[0].toUpperCase()+m.slice(1):''}
 function ytKey(){try{return localStorage.getItem('cs_yt_key')||''}catch(e){return ''}}
 function ytParse(v){v=v.trim();var m;if(m=v.match(/youtube\.com\/channel\/(UC[\w-]{20,})/i))return{id:m[1]};if(m=v.match(/youtube\.com\/@([\w.\-%]+)/i))return{h:decodeURIComponent(m[1])};if(m=v.match(/youtube\.com\/(?:c|user)\/([\w.\-%]+)/i))return{u:m[1],h:m[1]};if(/^UC[\w-]{20,}$/.test(v))return{id:v};return{h:v.replace(/^@/,'').split(/[\/?#]/)[0]}}
@@ -1204,7 +1208,7 @@ async function sbLogin(){var m=$('lmsg');function msg(c,t){m.className='msg '+c;
  sbSet(j);await sbLoad();msg('ok','✔ Login Successful');setTimeout(enterApp,500)}catch(e){msg('err','Network error. Try again.')}}
 document.addEventListener('click',function(e){var b=e.target.closest('#li,#sa,#fsend,#rset,#aem,#apw');if(!b)return;e.stopImmediatePropagation();e.preventDefault();({li:sbLogin,sa:sbSave,fsend:fgSend,rset:rsSet,aem:acEmail,apw:acPass})[b.id]()},true);
 (async function(){var hs=location.hash,l0=$('ld');if(/type=recovery/.test(hs)){var mm=/access_token=([^&]+)/.exec(hs);if(mm){RECTOK=decodeURIComponent(mm[1]);history.replaceState(null,'',location.pathname);document.documentElement.classList.remove('has');if(l0)l0.classList.add('hide');lscr('rsc');return}}
- try{SESS=JSON.parse(localStorage.getItem('cs_sb')||'null')}catch(e){}if(SESS&&SB_OK()){try{await sbLoad();if(l0)l0.classList.add('hide');enterApp();return}catch(e){}}document.documentElement.classList.remove('has');if(l0)l0.classList.add('hide');lscr('lc')})();
+ try{SESS=JSON.parse(localStorage.getItem('cs_sb')||'null')}catch(e){}if(SESS&&SB_OK()){try{await sbLoad();enterApp(true);return}catch(e){}}document.documentElement.classList.remove('has');if(l0)l0.classList.add('hide');lscr('lc')})();
 </script>
 </body>
 </html>
